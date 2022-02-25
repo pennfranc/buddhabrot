@@ -1,9 +1,11 @@
 
-let max_iterations = 500;
 let color_sliders = [];
 let slider_spacing = 30;
 let color_square_width = 20;
 let colors = ['red', 'green', 'blue', 'alpha'];
+let color_inital_values = [0, 0, 255, 200]
+let max_iterations_inital_val = '5000'
+let max_iterations = parseInt(max_iterations_inital_val);
 let max_it_input;
 
 function setup() {
@@ -14,7 +16,7 @@ function setup() {
     for (var i = 0; i < colors.length; i++) {
 
         // slider
-        var color_slider = createSlider(0, 255, 100);
+        var color_slider = createSlider(0, 255, color_inital_values[i]);
         color_slider.position(width + 50, 10 + i * slider_spacing)
         color_slider.style('width', '80px');
         color_sliders.push(color_slider);
@@ -26,7 +28,7 @@ function setup() {
     }
 
     // max iterations input
-    max_it_input = createInput('500');
+    max_it_input = createInput(max_iterations_inital_val);
     max_it_input.position(width + 50, slider_spacing * 7);
     var p = createP('max iterations')
     p.position(width + 50, slider_spacing * 5.5)

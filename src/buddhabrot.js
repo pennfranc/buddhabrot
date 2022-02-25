@@ -35,20 +35,6 @@ function trace_escape(c, max_iterations, zoom) {
     }
 }
 
-function draw_mandelbrot(max_iterations, zoom) {
-    for (var i = 0; i < width; i++) {
-        for (var j = 0; j < height; j++) {
-            var x = ((i - parseFloat(width) / 2) / width * 2 - 0.5) / zoom 
-            var y = ((j - parseFloat(height) / 2) / height * 2) / zoom
-            var c = Complex(x, y)
-            
-            var iterations = this.num_iterations(c, max_iterations)
-            stroke(255 - (iterations / max_iterations) * 255, 0, 0)
-            point(i, j)
-        }
-    }
-}
-
 function buddhabrot_iteration(max_iterations, zoom) {
 
     /**
@@ -60,6 +46,10 @@ function buddhabrot_iteration(max_iterations, zoom) {
      *                                   max_iterations, then it is kept and drawn onto the canvas.
      *                                   The higher the value, the bigger the impact of trajectories that spend
      *                                   a long time in a 'confined space'.
+     *                                   A lower number leads to missing a lot of 'late-escapers'.
+     *                                   Generally speaking, setting this number higher will reveal more
+     *                                   intricate patterns.
+     * 
      * @param  {Float} zoom              How much we zoom into buddhabrot. TODO: needs to be tested.
      */
 
