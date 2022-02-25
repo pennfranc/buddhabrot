@@ -4,9 +4,10 @@ let slider_spacing = 30;
 let color_square_width = 20;
 let colors = ['red', 'green', 'blue', 'alpha'];
 let color_inital_values = [0, 0, 255, 200]
-let max_iterations_inital_val = '5000'
+let max_iterations_inital_val = '500'
 let max_iterations = parseInt(max_iterations_inital_val);
 let max_it_input;
+let mouse_mode = true;
 
 function setup() {
     createCanvas(500, 500); 
@@ -38,7 +39,7 @@ function setup() {
   
 
 function draw() {
-    buddhabrot_iteration(max_iterations, 1);
+    buddhabrot_iteration(max_iterations, 1, mouse_mode);
 }
 
 

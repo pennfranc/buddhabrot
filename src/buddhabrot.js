@@ -1,6 +1,6 @@
 function from_pixels(i, j, zoom) {
-    var y_val = ((i - float(width) / 2) / width * 2 - 0.5) / zoom 
-    var x_val = ((j - float(height) / 2) / height * 2) / zoom
+    var y_val = (i / width * 2 - 1) / zoom 
+    var x_val = (j / height * 2 - 1.5) / zoom
     return {x: x_val, y: y_val}
 }
 
@@ -51,16 +51,26 @@ function buddhabrot_iteration(max_iterations, zoom) {
      *                                   intricate patterns.
      * 
      * @param  {Float} zoom              How much we zoom into buddhabrot. TODO: needs to be tested.
+     * 
+     * @param  {Boolean} mouse_mode      Indicates whether mouse mode should be activated. In mouse mode,
+     *                                   the mouse position is used as trajectory starting point.
      */
 
     var iterations = max_iterations - 1
     while (iterations == max_iterations - 1) {
 
-        // choose a random starting point for the mandelbrot iterations
-        var x = Math.random() * 2 - 1.5
-        var y = Math.random() * 2 - 1
-        var c = Complex(x, y)
-
+        // choose a starting point for the mandelbrot iterations
+        var c;
+        if (mouse_mode == true) {
+            var grid_coordinates = from_pixels(mouseX, mouseY, zoom)
+            c = Complex(grid_coordinates.x + Math.random() / 2, grid_coordinates.y + Math.random() / 2)
+            //c = Complex(Math.random() / 1, Math.random() / 1)
+        } else {
+            var x = Math.random() * 2 - 1.5
+            var y = Math.random() * 2 - 1
+            c = Complex(x, y)
+        }
+        //console.log(grid_coordinates)
         // skip points within main cardiod and within circle with center (-1, 0)
         var t = c.arg()
         var cardiod_point = Complex((2 * Math.cos(t) - Math.cos(2*t)) / 4, (2 * Math.sin(t) - Math.sin(2*t)) / 4)
