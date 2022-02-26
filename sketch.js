@@ -3,10 +3,13 @@ let color_sliders = [];
 let slider_spacing = 30;
 let color_square_width = 20;
 let colors = ['red', 'green', 'blue', 'alpha'];
-let color_inital_values = [0, 0, 255, 200]
-let max_iterations_inital_val = '5000'
+let color_inital_values = [0, 0, 255, 200];
+let max_iterations_inital_val = '5000';
+let min_iterations_initial_val = '20';
 let max_iterations = parseInt(max_iterations_inital_val);
+let min_iterations = parseInt(min_iterations_initial_val);
 let max_it_input;
+let min_it_input;
 
 function setup() {
     createCanvas(500, 500); 
@@ -30,15 +33,21 @@ function setup() {
     // max iterations input
     max_it_input = createInput(max_iterations_inital_val);
     max_it_input.position(width + 50, slider_spacing * 7);
-    var p = createP('max iterations')
+    var p = createP('max escape iterations')
     p.position(width + 50, slider_spacing * 5.5)
+
+    // min iterations input
+    min_it_input = createInput(min_iterations_initial_val);
+    min_it_input.position(width + 50, slider_spacing * 9);
+    var p = createP('min escape iterations')
+    p.position(width + 50, slider_spacing * 7.5)
 
     mouseReleased()
 }
   
 
 function draw() {
-    buddhabrot_iteration(max_iterations, 1);
+    buddhabrot_iteration(max_iterations, min_iterations, 1);
 }
 
 
@@ -55,6 +64,7 @@ function mouseReleased() {
 
 function keyReleased() {
     max_iterations = parseInt(max_it_input.value())
+    min_iterations = parseInt(min_it_input.value())
 }
 
 function draw_color_square(color) {

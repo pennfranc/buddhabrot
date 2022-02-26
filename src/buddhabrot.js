@@ -35,7 +35,7 @@ function trace_escape(c, max_iterations, zoom) {
     }
 }
 
-function buddhabrot_iteration(max_iterations, zoom) {
+function buddhabrot_iteration(max_iterations, min_iterations, zoom) {
 
     /**
      * Computes mandelbrot trajectories of random complex numbers until it finds one that is certain to escape
@@ -49,6 +49,10 @@ function buddhabrot_iteration(max_iterations, zoom) {
      *                                   A lower number leads to missing a lot of 'late-escapers'.
      *                                   Generally speaking, setting this number higher will reveal more
      *                                   intricate patterns.
+     * 
+     * @param  {Integer} min_iterations  The minimum number of iterations before certain escape of a trajectory
+     *                                   required for the trace to be drawn onto the canvas. 
+     *                                   Increasing this number will filter out trajectories that escape fast.
      * 
      * @param  {Float} zoom              How much we zoom into buddhabrot. TODO: needs to be tested.
      */
@@ -72,7 +76,7 @@ function buddhabrot_iteration(max_iterations, zoom) {
         
         // fewer than `max_iterations` steps could be performed, then the trajectory escaped and is
         // part of buddhabrot
-        if (iterations < max_iterations - 1) {
+        if (iterations < max_iterations - 1 && iterations >= min_iterations) {
             this.trace_escape(c, max_iterations, zoom)
         }
 
