@@ -56,21 +56,21 @@ function trace_escape(c, max_iterations, zoom) {
 function buddhabrot_iteration(max_iterations, min_iterations, zoom) {
 
     /**
-     * Computes mandelbrot trajectories of random complex numbers until it finds one that is certain to escape
-     * within `max_iterations` iterations. The escaping trajectory is drawn upon the canvas.
+     * Computes mandelbrot orbits of random complex numbers until it finds one that is certain to escape
+     * within `max_iterations` iterations. The escaping orbit is drawn upon the canvas.
      * 
      * @param  {Integer} max_iterations  The maximal number of iterations of the Mandelbrot function tried
-     *                                   to see if a random trajectory escapes. If it escapes before
+     *                                   to see if a random orbit escapes. If it escapes before
      *                                   max_iterations, then it is kept and drawn onto the canvas.
-     *                                   The higher the value, the bigger the impact of trajectories that spend
+     *                                   The higher the value, the bigger the impact of orbits that spend
      *                                   a long time in a 'confined space'.
      *                                   A lower number leads to missing a lot of 'late-escapers'.
      *                                   Generally speaking, setting this number higher will reveal more
      *                                   intricate patterns.
      * 
-     * @param  {Integer} min_iterations  The minimum number of iterations before certain escape of a trajectory
+     * @param  {Integer} min_iterations  The minimum number of iterations before certain escape of a orbit
      *                                   required for the trace to be drawn onto the canvas. 
-     *                                   Increasing this number will filter out trajectories that escape fast.
+     *                                   Increasing this number will filter out orbits that escape fast.
      * 
      * @param  {Float} zoom              How much we zoom into buddhabrot. TODO: needs to be tested.
      */
@@ -89,10 +89,10 @@ function buddhabrot_iteration(max_iterations, min_iterations, zoom) {
         if (!(c.abs() > cardiod_point.abs() && c.add(1).abs() > 0.25)) {continue}
         
         // compute the number of iterations, up to `max_iterations`, that could be performed
-        // without being certain that the trajectory escapes
+        // without being certain that the orbit escapes
         var iterations = num_iterations(c, max_iterations)
         
-        // fewer than `max_iterations` steps could be performed, then the trajectory escaped and is
+        // fewer than `max_iterations` steps could be performed, then the orbit escaped and is
         // part of buddhabrot
         if (iterations < max_iterations - 1 && iterations >= min_iterations) {
             this.trace_escape(c, max_iterations, zoom)
