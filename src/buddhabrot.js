@@ -1,6 +1,6 @@
 function from_pixels(i, j, zoom) {
-    var y_val = ((i - float(width) / 2) / width * 2 - 0.5) / zoom 
-    var x_val = ((j - float(height) / 2) / height * 2) / zoom
+    var y_val = (i / width * 2 - 1) / zoom 
+    var x_val = (j / height * 2 - 1.5) / zoom
     return {x: x_val, y: y_val}
 }
 
@@ -50,6 +50,7 @@ function trace_escape(c, max_iterations, zoom) {
             point(pixels.u, pixels.v)
         }
     }
+    return n
 }
 
 function buddhabrot_iteration(max_iterations, min_iterations, zoom) {
@@ -100,3 +101,14 @@ function buddhabrot_iteration(max_iterations, min_iterations, zoom) {
     }
 }
 
+function draw_mandelbrot(max_iterations, zoom, stride) {
+    for (var i = 0; i < width; i+=stride) {
+        for (var j = 0; j < height; j+=stride) {
+            coords = from_pixels(i, j, zoom)
+            var c = Complex(coords.x, coords.y)
+            var iterations = this.num_iterations(c, max_iterations)
+            stroke(min(iterations, 255), 0, 0)
+            point(i, j)
+        }
+    }
+}
