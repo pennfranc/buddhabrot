@@ -11,14 +11,31 @@ function to_pixels(x, y, zoom) {
 }
     
 function iteration(z, c) {
-    return z.mul(z).add(c)
+    return z.mul(z).add(c);
+}
+
+function complex_to_string(z) {
+    // for hashing purposes
+    combined_string = concat(z.re.toString(), '-', z.im.toString())
+    return combined_string
 }
 
 function num_iterations(c, max_iterations) {
-    var z = Complex(0, 0)
+    var z = Complex(0, 0);
+    var visited_points = new Set();
     for (var n = 0; n < max_iterations; n++) {
-        if (z.abs() > 2) {break}
         z = this.iteration(z, c)
+
+        // orbit has escaped and is going to be drawn
+        if (z.abs() > 2) {break}
+
+        // cycle detected and orbit should not be drawn (Brent's algorithm)
+        if (visited_points.has(complex_to_string(z))) {
+            n = max_iterations - 1;
+            break;
+        }
+
+        visited_points.add(complex_to_string(z))
     }
     return parseFloat(n)
 }
