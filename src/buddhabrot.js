@@ -68,7 +68,7 @@ function buddhabrot_iteration(max_iterations, min_iterations, zoom) {
      *                                   Generally speaking, setting this number higher will reveal more
      *                                   intricate patterns.
      * 
-     * @param  {Integer} min_iterations  The minimum number of iterations before certain escape of a orbit
+     * @param  {Integer} min_iterations  The minimum number of iterations before certain escape of an orbit
      *                                   required for the trace to be drawn onto the canvas. 
      *                                   Increasing this number will filter out orbits that escape fast.
      * 
