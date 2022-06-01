@@ -10,3 +10,5 @@ let max_iterations = parseInt(max_iterations_inital_val);
 let min_iterations = parseInt(min_iterations_initial_val);
 let max_it_input;
 let min_it_input;
+let step_x_input;
+let step_y_input;
