@@ -4,9 +4,9 @@ let sleep_time = 50
 let starting_number = Complex(-0.650, 0.347)
 
 let step_magnitude = 0.000005
-let steps = [Complex(-0.000005, 0)]
+let steps = []
 let zoom_level = 1
-let cs
+let cs = []
 
 let first_click_done = false
 first_click_x = 0
@@ -25,14 +25,12 @@ function screen_to_complex(x, y) {
 }
 
 function setup() {
-    max_iterations = 3000
     createCanvas(500, 500); 
     background(0, 0, 0);
     draw_mandelbrot(255, 1, 5);
     mandelbrot_background = get();
     stroke(100, 255, 255);
 
-    cs = [starting_number]
     for (var i = 0; i < n; i++) {
         sleep(i * sleep_time).then(function() {
             background(0, 0, 0);
@@ -66,7 +64,6 @@ function mouseClicked() {
       cs.push(step_start)
       var step = (step_end.sub(step_start))
       step = step.div(step.abs()).mul(step_magnitude)
-      console.log(step)
       steps.push(step)
     }
     
