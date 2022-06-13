@@ -3,17 +3,25 @@ let n = 5000
 let sleep_time = 50
 let starting_number = Complex(-0.650, 0.347)
 
-let step_x = -0.000005
-let step_y = 0
-let step = Complex(-0.000005, 0)
+let step_magnitude = 0.000005
+let steps = [Complex(-0.000005, 0)]
 let zoom_level = 1
-let c
+let cs
+
+let first_click_done = false
+first_click_x = 0
+first_click_y = 0
 
 function sleep(millisecondsDuration) {
   // from https://editor.p5js.org/RemyDekor/sketches/9jcxFGdHS
   return new Promise((resolve) => {
     setTimeout(resolve, millisecondsDuration);
   })
+}
+
+function screen_to_complex(x, y) {
+    var grid_coordinates = from_pixels(x, y, 1)
+    return Complex(grid_coordinates.x, grid_coordinates.y)
 }
 
 function setup() {
@@ -24,42 +32,46 @@ function setup() {
     mandelbrot_background = get();
     stroke(100, 255, 255);
 
-    c = starting_number
+    cs = [starting_number]
     for (var i = 0; i < n; i++) {
         sleep(i * sleep_time).then(function() {
             background(0, 0, 0);
-            c = c.add(Complex(step_x, step_y));
-
             image(mandelbrot_background, 0, 0);
-            num_iterations = trace_escape(c, max_iterations, zoom_level);
+
+            if (first_click_done) {
+              line(first_click_x, first_click_y, mouseX, mouseY)
+            }
+
+            for (var j = 0; j < cs.length; j++) {
+              cs[j] = cs[j].add(steps[j]);
+              num_iterations = trace_escape(cs[j], max_iterations, zoom_level);
+            }
 
         })
         
     }
-
-    // step x input
-    step_x_input = createInput(step_x);
-    step_x_input.position(width + 50, slider_spacing * 4);
-    var p = createP('step_x')
-    p.position(width + 50, slider_spacing * 2.5)
-
-    // step y input
-    step_y_input = createInput(step_y);
-    step_y_input.position(width + 50, slider_spacing * 6.5);
-    var p = createP('step_y')
-    p.position(width + 50, slider_spacing * 5)
 }
 
-function keyReleased() {
-  step_x = parseFloat(step_x_input.value())
-  step_y = parseFloat(step_y_input.value())
-}
 
 function mouseClicked() {
-  if ((mouseX < width) && (mouseY < height)) {
-    var grid_coordinates = from_pixels(mouseX, mouseY, 1)
-    c = Complex(grid_coordinates.x, grid_coordinates.y)
+  if ((!first_click_done) && (mouseX < width) && (mouseY < height)) {  // first click
+    first_click_done = true
+    first_click_x = mouseX
+    first_click_y = mouseY
+  } else {  // second click
+    if ((mouseX < width) && (mouseY < height)) {
+      first_click_done = false
+      step_start = screen_to_complex(first_click_x, first_click_y)
+      step_end = screen_to_complex(mouseX, mouseY)
+      cs.push(step_start)
+      var step = (step_end.sub(step_start))
+      step = step.div(step.abs()).mul(step_magnitude)
+      console.log(step)
+      steps.push(step)
+    }
+    
   }
+
 }
 
 function draw() {}
