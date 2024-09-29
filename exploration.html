@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>buddhabrot exploration</title>
-  <script src="src/p5.js" type="text/javascript"></script>
-  <script src="src/complex.js" type="text/javascript"></script>
-  <script src="src/globals.js" type="text/javascript"></script>
-  <script src="src/buddhabrot.js" type="text/javascript"></script>
+  <title>Buddhabrot Exploration</title>
+  <script src="src/common-header.js" type="text/javascript"></script>
 </head>
 <body>
-<script src="sketches/exploration-sketch.js"></script>
-<a href="index.html">Home</a>
+  <div id="content"><script src="sketches/exploration-sketch.js"></script> </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      insertSpecificSketch('sketches/exploration-sketch.js')
+    });
+  </script>
 </body>
 </html>

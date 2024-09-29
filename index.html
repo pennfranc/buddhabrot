@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>buddhabrot</title>
-  <script src="src/p5.js" type="text/javascript"></script>
-  <script src="src/complex.js" type="text/javascript"></script>
-  <script src="src/globals.js" type="text/javascript"></script>
-  <script src="src/buddhabrot.js" type="text/javascript"></script>
+  <title>Buddhabrot</title>
+  <script src="src/common-header.js" type="text/javascript"></script>
 </head>
 <body>
-
-<div><script src="sketches/buddhabrot-sketch.js"></script></div>
-<div><a href="exploration.html">Explore orbits</a></div>
-<div><a href="animation.html">Explore animations</a></div>
-
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      insertSpecificSketch('sketches/buddhabrot-sketch.js')
+    });
+  </script>
 </body>
 </html>
