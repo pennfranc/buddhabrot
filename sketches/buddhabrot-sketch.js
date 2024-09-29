@@ -2,6 +2,9 @@
 
 function setup() {
     let cnv = createCanvas(500, 500); 
+    const margin_top = 150;
+    cnv.position(10, margin_top + 10)
+    
     background(0, 0, 0);
 
     // create color sliders
@@ -9,27 +12,45 @@ function setup() {
 
         // slider
         var color_slider = createSlider(0, 255, color_inital_values[i]);
-        color_slider.position(width + 50, 10 + i * slider_spacing)
+        color_slider.position(
+            width + 50,
+            margin_top + 10 + i * slider_spacing
+        )
         color_slider.style('width', '80px');
         color_sliders.push(color_slider);
 
         // label
         var p = createP(colors[i]);
         p.style('font-size', '16px');
-        p.position(width + color_slider.width + 70, i * slider_spacing);
+        p.position(
+            width + color_slider.width + 70,
+            margin_top + i * slider_spacing
+        );
     }
 
     // max iterations input
     max_it_input = createInput(max_iterations_inital_val);
-    max_it_input.position(width + 50, slider_spacing * 7);
+    max_it_input.position(
+        width + 50,
+        margin_top + slider_spacing * 7
+    );
     var p = createP('max escape iterations')
-    p.position(width + 50, slider_spacing * 5.5)
+    p.position(
+        width + 50,
+        margin_top + slider_spacing * 5.5
+    )
 
     // min iterations input
     min_it_input = createInput(min_iterations_initial_val);
-    min_it_input.position(width + 50, slider_spacing * 9);
+    min_it_input.position(
+        width + 50,
+        margin_top + slider_spacing * 9
+    );
     var p = createP('min escape iterations')
-    p.position(width + 50, slider_spacing * 7.5)
+    p.position(
+        width + 50,
+        margin_top + slider_spacing * 7.5
+    )
 
     mouseReleased()
 }

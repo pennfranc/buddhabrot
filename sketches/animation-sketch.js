@@ -25,11 +25,13 @@ function screen_to_complex(x, y) {
 }
 
 function setup() {
-    createCanvas(500, 500); 
+    let cnv = createCanvas(500, 500); 
     background(0, 0, 0);
     draw_mandelbrot(255, 1, 5);
     mandelbrot_background = get();
     stroke(100, 255, 255);
+    const margin_top = 150;
+    cnv.position(10, margin_top + 10)
 
     for (var i = 0; i < n; i++) {
         sleep(i * sleep_time).then(function() {

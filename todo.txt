@@ -1,2 +1,3 @@
 - add `x_offset` and `y_offset` parameters to `trace_escape` corresponding to distances in the complex plane
 - add text input for starting number and step number on animation page
+- collapse html pages into one using exchangeable elements (ajax?)
