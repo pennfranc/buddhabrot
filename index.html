@@ -32,8 +32,28 @@
       structure for that matter (although potentially it could be formalized as some kind of distribution\).
       Instead, it refers to a kind of algorithmic/mathematical painting technique parametrized by <i>max escape iterations</i> and 
       <i>min escape iterations</i>.
-
-      
+      <ol>
+        <li>Initialize a 2D array of integers representing points on the complex plane.</li>
+        <li>Randomly sample a point $c$ from the complex</li>
+        <li>Iterate the Mandelbrot equation using the sampled $c$ until $|z_n|>2$ or $n=\text{max escape iterations}$</li>
+        <li>If $|z_n|>2$ for some $n \leq \text{max escape iterations}$, then the series diverges.
+          In this case, if we also have $argmin_n(|z_n|>2) \geq \text{min escape iterations}$, all entries of our 2D array that overlap with the trajectory should be increased by 1.
+          Otherwise we cannot be sure that the sequence diverges, and we do nothing.
+        </li>
+        <li>Go back to step 2 until satisfied.</li>
+      </ol>  
+      In a nutshell, for randomly sampled $c$ for which the Mandelbrot sequence diverges, we paint the trajectories on the complex canvas.
+      The range of trajectory lengths defined by <i>max escape iterations</i> and 
+      <i>min escape iterations</i> lets us control what kinds of sequences are drawn. Longer escape trajectories
+      lead to more elaborate patterns. Then, the trick is to use different colors for different trajectory ranges.
+      This technique can be used to create these 'Nebulabrot' images.
+      <figure style="text-align: center;">
+        <img src="images/nebulabrot.jpg" width="400" >
+        <figcaption>Source: <a href="https://de.wikipedia.org/wiki/Buddhabrot#/media/Datei:Nebulabrot.jpg">Wikipedia</a></figcaption>
+      </figure>
+      Specifically, Nebulabrot images can be achieved by setting the <i>max escape iterations</i> value to 
+      20 for blue, 200 for green and 2000 for red. Also, to get similar results to the picture seen above, some kind
+      of smoothing filter probably has to be applied to the pixel map.
     </div>
   </div>
 </body>
