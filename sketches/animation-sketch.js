@@ -1,6 +1,7 @@
 // note: 'fireworks' here refers to the animation resulting from displaying trajectories of ajacent points c in quick succession
-
-const max_num_fireworks = 10
+let sleep_time = 50
+const max_num_fireworks = 10 // how many separate fireworks can be lit during the show
+const num_iterations_firework = 1000 // how many iterations the show is run for
 
 // array of fireworks, i.e. an array of sequences of complex numbers to be animated
 let waypoints_arr_x = []  // screen x coordinates
@@ -21,6 +22,13 @@ const button_height = 50
 
 let saveFireworkButton
 let startShowButton
+
+function sleep(millisecondsDuration) {
+  // from https://editor.p5js.org/RemyDekor/sketches/9jcxFGdHS
+  return new Promise((resolve) => {
+    setTimeout(resolve, millisecondsDuration);
+  })
+}
 
 
 function setup() {
@@ -62,27 +70,91 @@ function draw() {}
 function saveFirework() {
   starting_new_waypoint = true
   drawBackground()
+  drawTrajectory()
   updateFireworkRouteDisplays()
   saveFireworkButton.hide()
   startShowButton.show()
 }
 
-function startFireworksShow() {
+function computeDistances() {
+  distances_arr = []
+  for (let i = 0; i < waypoints_arr_c.length; i++) {
+    let d_array = [];
+    for (let j = 0; j < waypoints_arr_c[i].length - 1; j++) {
+      let distance = waypoints_arr_c[i][j].sub(waypoints_arr_c[i][j + 1]).abs();
+      d_array.push(distance);
+    }
+    distances_arr.push(d_array);
+  }
+  return distances_arr
+}
 
+function computeFractions(distances_arr) {
+  fractions_arr = []
+  for (let i = 0; i < distances_arr.length; i++) {
+    let totalDistance = distances_arr[i].reduce((a, b) => a + b, 0);
+    let cumulative_distances = distances_arr[i].map((curr, index) => distances_arr[i].slice(0, index + 1).reduce((acc, curr) => acc + curr, 0));
+    let fractions = cumulative_distances.map(cum_distance => cum_distance / totalDistance);
+    fractions.unshift(0);
+    fractions_arr.push(fractions);
+  }
+  return fractions_arr
+}
+
+function computeSteps(distances_arr, fractions_arr) {
+  steps_arr = []
+  for (let i = 0; i < distances_arr.length; i++) {
+    steps = []
+    for (let j = 0; j < num_iterations_firework; j++) {
+      var trajectory_frac = j / num_iterations_firework;
+      let last_waypoint_idx = fractions_arr[i].findLastIndex(fraction => trajectory_frac >= fraction);
+      let num_steps_between_waypoints = Math.floor(
+        (fractions_arr[i][last_waypoint_idx + 1] - fractions_arr[i][last_waypoint_idx]) * num_iterations_firework
+      )
+      let vec_between_waypoints = waypoints_arr_c[i][last_waypoint_idx + 1].sub(waypoints_arr_c[i][last_waypoint_idx])
+
+      steps.push(vec_between_waypoints.div(num_steps_between_waypoints))
+      
+    }
+    steps_arr.push(steps)
+  }
+  return steps_arr
+}
+
+function startFireworksShow() {
+  startShowButton.hide()
+  animation_started = true
+  // array of distance arrays between subsequent c in a waypoint array
+  distances_arr = computeDistances()
+  fractions_arr = computeFractions(distances_arr)
+  steps_arr = computeSteps(distances_arr, fractions_arr)
+  cs = waypoints_arr_c.map(waypoint => waypoint[0])
+  for (var i = 0; i < num_iterations_firework; i++) {
+    sleep(i * sleep_time).then((function(i) {
+        return function() {
+            drawBackground()
+
+            for (var j = 0; j < cs.length; j++) {
+              num_iterations = trace_escape(cs[j], max_iterations, 1)
+              cs[j] = cs[j].add(steps_arr[j][i]);
+            }
+
+        }
+    })(i));
+}
 }
 
 function mouseMoved() {
-  
-  drawBackground()
-  updateFireworkRouteDisplays()
+  if (!animation_started) {
+    drawBackground()
+    drawTrajectory()
+    updateFireworkRouteDisplays()
+  }
 }
 
 function drawBackground() {
   image(mandelbrot_background, 0, 0);
-  var grid_coordinates = from_pixels(mouseX, mouseY, 1)
-  c = Complex(grid_coordinates.x, grid_coordinates.y)
-  stroke(default_color)
-  num_iterations = trace_escape(c, max_iterations, 1)
+  
 
   stroke(default_color)
   fill(255, 255, 255)
@@ -96,6 +168,14 @@ function drawBackground() {
     `Number of saved fireworks: ${num_saved_fireworks} / ${max_num_fireworks}`,
     width - 200, 15,
   );
+  stroke(default_color)
+}
+
+function drawTrajectory() {
+  var grid_coordinates = from_pixels(mouseX, mouseY, 1)
+  c = Complex(grid_coordinates.x, grid_coordinates.y)
+  stroke(default_color)
+  num_iterations = trace_escape(c, max_iterations, 1)
 }
 
 function updateFireworkRouteDisplays() {
@@ -153,7 +233,6 @@ function setStartingNewWayPoint(starting_new_waypoint_new) {
 }
 
 function mouseClicked() {
-  console.log(waypoints_arr_x)
   if (!animation_started) {
 
     if (starting_new_waypoint && (mouseX < width) && (mouseY < height)) {  // first point in new firework
