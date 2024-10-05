@@ -31,7 +31,7 @@ function insertCommonElements() {
       <h1>Buddhabrot Explorer</h1>
       <nav>
         <a href="index.html">Home</a> |
-        <a href="exploration.html">Explore Orbits</a> |
+        <a href="exploration.html">Explore Trajectories</a> |
         <a href="animation.html">Explore Animations</a>
       </nav>
     </header>

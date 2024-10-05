@@ -12,7 +12,20 @@
       </div>
     </div>
     <div class="column">
-      <!-- TODO: add text -->
+
+      <h2>About the Trajectories</h2>
+      The overall shape and intricate details of Buddhabrot arise thanks to the trajectories of points $c$ that
+      tend towards infinity (and before their magnitude starts to increase exponentially\) of the Mandelbrot equation
+      $$z_{n+1} = z_n^2 + c,\quad z_0=0$$
+      
+      This prompts the question of
+      what kinds of trajectories we get for different values of $c$. The tool on the left lets you explore not only trajectories going
+      to infinity, but also converging or oscillating ones. $c$ is wherever the mouse points. The number of points displayed for each trajectory
+      The Mandelbrot set is indicated roughly by by the dark red dots.
+      The number on the top left indicates how many iterations $n$ of the Mandelbrot equation
+      are necessary for $|z_n|>2$ up until $n=\text{max iterations}$. We get $n=\text{max iterations}$ if the sequence
+      does not diverge or if $|z_n|>2$ only for $n>\text{max iterations}$. The length of the trajectory displayed is always
+      equal to $n$.
     </div>
   </div>
 </body>

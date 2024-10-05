@@ -26,7 +26,7 @@ function mouseMoved() {
     num_iterations = trace_escape(c, max_iterations, 1)
 
     fill(255, 255, 255)
-    text(num_iterations.toString(), 10, 15)
+    text("n = " + num_iterations.toString(), 10, 15)
 }
 
 function keyReleased() {
