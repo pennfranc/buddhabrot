@@ -20,6 +20,11 @@ function complex_to_string(z) {
     return combined_string
 }
 
+function screen_to_complex(x, y) {
+    var grid_coordinates = from_pixels(x, y, 1)
+    return Complex(grid_coordinates.x, grid_coordinates.y)
+}
+
 function num_iterations(c, max_iterations) {
     var z = Complex(0, 0);
     var visited_points = new Set();
