@@ -32,7 +32,7 @@ function insertCommonElements() {
       <nav>
         <a href="index.html">Home</a> |
         <a href="exploration.html">Explore Trajectories</a> |
-        <a href="animation.html">Explore Animations</a>
+        <a href="animation.html">Create Fireworks</a>
       </nav>
     </header>
   `;
