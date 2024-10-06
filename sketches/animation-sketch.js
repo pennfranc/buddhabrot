@@ -124,8 +124,7 @@ function computeSteps(distances_arr, fractions_arr) {
 function startFireworksShow() {
   startShowButton.hide()
   animation_started = true
-  // array of distance arrays between subsequent c in a waypoint array
-  distances_arr = computeDistances()
+  distances_arr = computeDistances()  // array of distance arrays between subsequent c in a waypoint array
   fractions_arr = computeFractions(distances_arr)
   steps_arr = computeSteps(distances_arr, fractions_arr)
   cs = waypoints_arr_c.map(waypoint => waypoint[0])
@@ -138,9 +137,11 @@ function startFireworksShow() {
               num_iterations = trace_escape(cs[j], max_iterations, 1)
               cs[j] = cs[j].add(steps_arr[j][i]);
             }
-
+            if (i == num_iterations_firework - 1) {
+              // reset everything
+            }
         }
-    })(i));
+      })(i));
 }
 }
 
@@ -158,7 +159,6 @@ function drawBackground() {
 
   stroke(default_color)
   fill(255, 255, 255)
-  text("n = " + num_iterations.toString(), 10, 15)
 
   stroke(saved_fireworks_color);
   let num_saved_fireworks = max(
@@ -176,6 +176,7 @@ function drawTrajectory() {
   c = Complex(grid_coordinates.x, grid_coordinates.y)
   stroke(default_color)
   num_iterations = trace_escape(c, max_iterations, 1)
+  text("n = " + num_iterations.toString(), 10, 15)
 }
 
 function updateFireworkRouteDisplays() {
