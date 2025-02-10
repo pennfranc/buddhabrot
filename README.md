@@ -1,1 +1,1 @@
-[Buddhabrot App](pennfranc.github.io/buddhabrot/)
+[Buddhabrot App](https://pennfranc.github.io/buddhabrot/)
